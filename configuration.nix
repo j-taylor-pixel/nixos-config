@@ -107,8 +107,8 @@
     pkgs.steam
     pkgs.vscode
     pkgs.zoom-us
-    pkgs.github-desktop
     pkgs.git
+    pkgs.github-desktop
   ];
 
 

@@ -21,11 +21,6 @@
   };
 
   networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
-
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -56,7 +51,8 @@
   sound.enable = true;
   hardware.pulseaudio.enable = false;
   security.rtkit.enable = true;
-  # sudoless 
+
+  # passwordless sudo 
   security.sudo.extraRules= [{  
     users = [ "josiah" ];
     commands = [{ 
@@ -78,9 +74,6 @@
     #media-session.enable = true;
   };
 
-  # Enable touchpad support (enabled default in most desktopManager).
-  # services.xserver.libinput.enable = true;
-
   # Define a user account. Don't forget to set a password with ‘passwd’.
   users.users.josiah = {
     isNormalUser = true;
@@ -88,7 +81,6 @@
     extraGroups = [ "networkmanager" "wheel" ];
     packages = with pkgs; [
       firefox
-    #  thunderbird
     ];
   };
 
@@ -97,9 +89,7 @@
   # Keep nixos up to date
   system.autoUpgrade.enable = true;
 
-
   # List packages installed in system profile. To search, run:
-  # $ nix search wget
   environment.systemPackages = with pkgs; [
     pkgs.kitty
     pkgs.kitty-themes
@@ -110,39 +100,21 @@
     pkgs.git
     pkgs.github-desktop
   ];
-
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
   
+  # Steam specific required settings
   programs.steam = {
     enable = true;
     remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  # Required for github desktop
+  
   nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1v"
+    "openssl-1.1.1v"  # Required for github desktop
   ];
 
   # List services that you want to enable:
   powerManagement.powertop.enable = true;
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
-
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
 
   # This value determines the NixOS release from which the default
   # settings for stateful data, like file locations and database versions
@@ -153,4 +125,3 @@
   system.stateVersion = "23.05"; # Did you read the comment?
 
 }
-

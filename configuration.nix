@@ -99,6 +99,10 @@
     pkgs.zoom-us
     pkgs.git
     pkgs.github-desktop
+    pkgs.retroarchFull
+    pkgs.libreoffice-qt
+    pkgs.hunspell # Required for libreoffice spellchecker
+    pkgs.hunspellDicts.en_US
   ];
   
   # Steam specific required settings
@@ -112,6 +116,10 @@
   nixpkgs.config.permittedInsecurePackages = [
     "openssl-1.1.1v"  # Required for github desktop
   ];
+
+  # Enable Flakes
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  
 
   # List services that you want to enable:
   powerManagement.powertop.enable = true;

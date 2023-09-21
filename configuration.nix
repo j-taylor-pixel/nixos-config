@@ -15,6 +15,8 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
+  nix.settings.auto-optimise-store = true;
+
   # Setup keyfile
   boot.initrd.secrets = {
     "/crypto_keyfile.bin" = null;
@@ -95,6 +97,7 @@
     pkgs.kitty-themes
     pkgs.discord
     pkgs.steam
+    pkgs.lutris-free
     pkgs.vscode
     pkgs.zoom-us
     pkgs.git

@@ -107,6 +107,7 @@
     pkgs.hunspell # Required for libreoffice spellchecker
     pkgs.hunspellDicts.en_US
     pkgs.gnome.gnome-tweaks
+    pkgs.python39
   ];
   
   # Steam specific required settings

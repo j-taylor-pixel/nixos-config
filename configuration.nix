@@ -106,6 +106,7 @@
     pkgs.libreoffice-qt
     pkgs.hunspell # Required for libreoffice spellchecker
     pkgs.hunspellDicts.en_US
+    pkgs.gnome.gnome-tweaks
   ];
   
   # Steam specific required settings

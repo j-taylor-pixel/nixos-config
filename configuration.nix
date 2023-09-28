@@ -108,8 +108,31 @@
     pkgs.hunspellDicts.en_US
     pkgs.gnome.gnome-tweaks
     pkgs.python39
+    pkgs.google-chrome
+    pkgs.jdk17 # required for minecraft
+    pkgs.prismlauncher-unwrapped # official minecraft launcher doesnt work so I use this instead
   ];
+
+  # Disable some gnome default applications
+  environment.gnome.excludePackages = with pkgs.gnome; [
+    epiphany    # web browser
+    simple-scan # document scanner    
+    yelp        # help viewer
+    geary       # email client
+    seahorse    # password manager
+    gnome-calculator gnome-font-viewer gnome-clocks
+    gnome-contacts gnome-weather pkgs.gnome-connections
+    gnome-maps gnome-music 
+  ];
+
+  virtualisation.docker.enable = true;
+  users.extraGroups.docker.members = [ "josiah" ];
   
+  virtualisation.docker.rootless = {
+    enable = true;
+    setSocketVariable = true;
+  };
+
   # Steam specific required settings
   programs.steam = {
     enable = true;

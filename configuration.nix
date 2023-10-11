@@ -22,7 +22,7 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  networking.hostName = "nixos"; # Define your hostname.
+  networking.hostName = "Asus Zenbook"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -39,6 +39,8 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
+
+  services.xserver.displayManager.gdm.wayland = false; # wayland screensharing sucks
 
   # Configure keymap in X11
   services.xserver = {
@@ -93,25 +95,35 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    pkgs.kitty
-    pkgs.kitty-themes
-    pkgs.discord
-    pkgs.steam
-    pkgs.lutris-free
+    pkgs.kitty pkgs.kitty-themes
+    pkgs.discord pkgs.zoom-us
+    pkgs.python311
     pkgs.vscode
-    pkgs.zoom-us
-    pkgs.git
-    pkgs.github-desktop
-    pkgs.retroarchFull
-    pkgs.libreoffice-qt
-    pkgs.hunspell # Required for libreoffice spellchecker
-    pkgs.hunspellDicts.en_US
+    pkgs.git pkgs.github-desktop    
+    pkgs.libreoffice-qt pkgs.hunspell pkgs.hunspellDicts.en_US # Required for libreoffice spellchecker
+    pkgs.google-chrome pkgs.netflix
+    pkgs.lutris-free pkgs.retroarchFull
+    pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies
     pkgs.gnome.gnome-tweaks
-    pkgs.python39
-    pkgs.google-chrome
-    pkgs.jdk17 # required for minecraft
-    pkgs.prismlauncher-unwrapped # official minecraft launcher doesnt work so I use this instead
+    #gnome extenstions
+    gnomeExtensions.appindicator
+    gnomeExtensions.caffeine
+    gnomeExtensions.app-icons-taskbar
+    gnomeExtensions.dash-to-dock
+    gnomeExtensions.maximize-to-empty-workspace
+    gnomeExtensions.gsconnect
   ];
+  
+  networking.firewall.allowedTCPPortRanges = [
+    # KDE Connect
+    { from = 1714; to = 1764; }
+  ];
+  networking.firewall.allowedUDPPortRanges = [
+    # KDE Connect
+    { from = 1714; to = 1764; }
+  ];
+
+  services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ]; # systray icons
 
   # Disable some gnome default applications
   environment.gnome.excludePackages = with pkgs.gnome; [
@@ -120,7 +132,8 @@
     yelp        # help viewer
     geary       # email client
     seahorse    # password manager
-    gnome-calculator gnome-font-viewer gnome-clocks
+    #gnome-calculator 
+    gnome-font-viewer gnome-clocks
     gnome-contacts gnome-weather pkgs.gnome-connections
     gnome-maps gnome-music 
   ];
@@ -140,11 +153,9 @@
     dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
   };
 
-  
   nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1v"  # Required for github desktop
+    "openssl-1.1.1w"
   ];
-
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   

@@ -1,7 +1,3 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
 
 
@@ -22,7 +18,7 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  networking.hostName = "Asus Zenbook"; # Define your hostname.
+  networking.hostName = "AsusZenbook"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -39,7 +35,6 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-
   services.xserver.displayManager.gdm.wayland = false; # wayland screensharing sucks
 
   # Configure keymap in X11
@@ -102,37 +97,43 @@
     pkgs.git pkgs.github-desktop    
     pkgs.libreoffice-qt pkgs.hunspell pkgs.hunspellDicts.en_US # Required for libreoffice spellchecker
     pkgs.google-chrome pkgs.netflix
-    pkgs.lutris-free pkgs.retroarchFull
+    pkgs.lutris-free pkgs.retroarch
     pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies
+    pkgs.iotas # note app
     pkgs.gnome.gnome-tweaks
     #gnome extenstions
-    gnomeExtensions.appindicator
-    gnomeExtensions.caffeine
-    gnomeExtensions.app-icons-taskbar
-    gnomeExtensions.dash-to-dock
-    gnomeExtensions.maximize-to-empty-workspace
-    gnomeExtensions.gsconnect
+    gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
+    gnomeExtensions.dash-to-dock gnomeExtensions.maximize-to-empty-workspace gnomeExtensions.gsconnect
   ];
   
   networking.firewall.allowedTCPPortRanges = [
-    # KDE Connect
+    # KDE Connect / GS connect
     { from = 1714; to = 1764; }
   ];
   networking.firewall.allowedUDPPortRanges = [
-    # KDE Connect
+    # KDE Connect / GS connect
     { from = 1714; to = 1764; }
   ];
 
   services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ]; # systray icons
+  services.tlp = { # power management and battery health settings
+    enable = true;
+    settings = {
+      START_CHARGE_THRESH_BAT0 = 75;
+      STOP_CHARGE_THRESH_BAT0 = 80;
+      CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
+      CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
+    };
+  };
+  services.power-profiles-daemon.enable = false; # required to be false if tlp is enabled
 
   # Disable some gnome default applications
   environment.gnome.excludePackages = with pkgs.gnome; [
     epiphany    # web browser
-    simple-scan # document scanner    
+    simple-scan # document scanner
     yelp        # help viewer
     geary       # email client
     seahorse    # password manager
-    #gnome-calculator 
     gnome-font-viewer gnome-clocks
     gnome-contacts gnome-weather pkgs.gnome-connections
     gnome-maps gnome-music 
@@ -154,11 +155,11 @@
   };
 
   nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1w"
+    "openssl-1.1.1w" # Required for Github Desktop
   ];
+
   # Enable Flakes
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
-  
 
   # List services that you want to enable:
   powerManagement.powertop.enable = true;

@@ -18,7 +18,7 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  networking.hostName = "AsusZenbook"; # Define your hostname.
+  networking.hostName = "MediaServer"; # Define your hostname.
 
   # Enable networking
   networking.networkmanager.enable = true;
@@ -90,15 +90,10 @@
 
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
-    pkgs.kitty pkgs.kitty-themes
-    pkgs.discord pkgs.zoom-us
-    pkgs.python311
-    pkgs.vscode pkgs.distrobox pkgs.git pkgs.github-desktop    
-    pkgs.libreoffice-qt pkgs.hunspell pkgs.hunspellDicts.en_US # Required for libreoffice spellchecker
-    pkgs.google-chrome 
-    pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies
-    pkgs.iotas # note app
-    pkgs.calibre # ebook software to read .epub
+    pkgs.kitty
+    pkgs.git     
+    pkgs.google-chrome
+    pkgs.netflix 
     pkgs.gnome.gnome-tweaks
     #gnome extenstions still have to be manually enabled
     gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
@@ -118,8 +113,8 @@
   services.tlp = { # power management and battery health settings
     enable = true;
     settings = {
-      START_CHARGE_THRESH_BAT0 = 75;
-      STOP_CHARGE_THRESH_BAT0 = 80;
+      START_CHARGE_THRESH_BAT0 = 50; # keep battery at healthy state if always plugged
+      STOP_CHARGE_THRESH_BAT0 = 55;
       CPU_ENERGY_PERF_POLICY_ON_BAT = "power";
       CPU_ENERGY_PERF_POLICY_ON_AC = "performance";
     };
@@ -136,25 +131,6 @@
     gnome-font-viewer gnome-clocks
     gnome-contacts gnome-weather pkgs.gnome-connections
     gnome-maps gnome-music 
-  ];
-
-  virtualisation.docker.enable = true;
-  users.extraGroups.docker.members = [ "josiah" ];
-  
-  virtualisation.docker.rootless = {
-    enable = true;
-    setSocketVariable = true;
-  };
-
-  # Steam specific required settings
-  programs.steam = {
-    enable = true;
-    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
-    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
-  };
-
-  nixpkgs.config.permittedInsecurePackages = [
-    "openssl-1.1.1w" # Required for Github Desktop
   ];
 
   # Enable Flakes

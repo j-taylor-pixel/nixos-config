@@ -18,11 +18,11 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  networking.hostName = "AsusZenbook"; # Define your hostname.
+  networking.hostName = "AsusZenbook"; #Define your hostname.
 
   # Enable networking
-  networking.networkmanager.enable = true;
-
+  networking.networkmanager.enable = true; 
+ 
   # Set your time zone.
   time.timeZone = "America/Toronto";
 

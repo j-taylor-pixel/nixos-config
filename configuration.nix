@@ -88,18 +88,22 @@
   # Keep nixos up to date
   system.autoUpgrade.enable = true;
 
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
+
   # List packages installed in system profile. To search, run:
   environment.systemPackages = with pkgs; [
     pkgs.kitty pkgs.kitty-themes
     pkgs.discord pkgs.zoom-us
     pkgs.python311
     pkgs.vscode pkgs.distrobox pkgs.git pkgs.github-desktop    
-    pkgs.libreoffice-qt pkgs.hunspell pkgs.hunspellDicts.en_US # Required for libreoffice spellchecker
     pkgs.google-chrome 
     pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies
     pkgs.iotas # note app
-    pkgs.calibre # ebook software to read .epub
+    pkgs.qpdfview  pkgs.calibre # ebook software to read .epub
     pkgs.gnome.gnome-tweaks
+    pkgs.wpsoffice
+    #pkgs.bruno # postman alternative
     #gnome extenstions still have to be manually enabled
     gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
     gnomeExtensions.dash-to-dock gnomeExtensions.maximize-to-empty-workspace gnomeExtensions.gsconnect

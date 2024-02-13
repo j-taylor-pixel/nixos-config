@@ -10,6 +10,7 @@
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
+  #boot.kernelPackages = pkgs.linuxPackages_latest;
 
   nix.settings.auto-optimise-store = true;
 
@@ -35,7 +36,7 @@
   # Enable the GNOME Desktop Environment.
   services.xserver.displayManager.gdm.enable = true;
   services.xserver.desktopManager.gnome.enable = true;
-  services.xserver.displayManager.gdm.wayland = false; # wayland screensharing sucks
+  services.xserver.displayManager.gdm.wayland = true; # wayland screensharing sucks
 
   # Configure keymap in X11
   services.xserver = {
@@ -90,11 +91,12 @@
 
   virtualisation.libvirtd.enable = true;
   programs.virt-manager.enable = true;
+  programs.direnv.enable = true;
 
-  # List packages installed in system profile. To search, run:
+  # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
     pkgs.kitty pkgs.kitty-themes
-    pkgs.discord pkgs.zoom-us
+    pkgs.discord pkgs.zoom-us pkgs.xwaylandvideobridge
     pkgs.python311
     pkgs.vscode pkgs.distrobox pkgs.git pkgs.github-desktop    
     pkgs.google-chrome 
@@ -102,8 +104,9 @@
     pkgs.iotas # note app
     pkgs.qpdfview  pkgs.calibre # ebook software to read .epub
     pkgs.gnome.gnome-tweaks
-    pkgs.wpsoffice
-    #pkgs.bruno # postman alternative
+    pkgs.realvnc-vnc-viewer
+    pkgs.quickgui pkgs.quickemu # Create ubuntu VM if nix isnt working for something like python
+    pkgs.qbittorrent
     #gnome extenstions still have to be manually enabled
     gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
     gnomeExtensions.dash-to-dock gnomeExtensions.maximize-to-empty-workspace gnomeExtensions.gsconnect

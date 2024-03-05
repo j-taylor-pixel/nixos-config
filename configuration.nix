@@ -5,6 +5,7 @@
   imports =
     [ # Include the results of the hardware scan.
       ./hardware-configuration.nix
+      ./home.nix
     ];
 
   # Bootloader.
@@ -19,10 +20,10 @@
     "/crypto_keyfile.bin" = null;
   };
 
-  networking.hostName = "AsusZenbook"; #Define your hostname.
+  networking.hostName = "AsusZenbook"; # Define your hostname.
 
   # Enable networking
-  networking.networkmanager.enable = true; 
+  networking.networkmanager.enable = true;
  
   # Set your time zone.
   time.timeZone = "America/Toronto";
@@ -95,22 +96,33 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    pkgs.kitty pkgs.kitty-themes
+    pkgs.kitty pkgs.kitty-themes pkgs.zoxide pkgs.fzf
     pkgs.discord pkgs.zoom-us pkgs.xwaylandvideobridge
     pkgs.python311
-    pkgs.vscode pkgs.distrobox pkgs.git pkgs.github-desktop    
+    pkgs.vscode pkgs.distrobox pkgs.git pkgs.github-desktop
     pkgs.google-chrome 
-    pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies
+    pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies. missing java
     pkgs.iotas # note app
-    pkgs.qpdfview  pkgs.calibre # ebook software to read .epub
+    pkgs.qpdfview pkgs.calibre # ebook software to read .epub
     pkgs.gnome.gnome-tweaks
     pkgs.realvnc-vnc-viewer
-    pkgs.quickgui pkgs.quickemu # Create ubuntu VM if nix isnt working for something like python
     pkgs.qbittorrent
+    pkgs.google-cloud-sdk
     #gnome extenstions still have to be manually enabled
     gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
     gnomeExtensions.dash-to-dock gnomeExtensions.maximize-to-empty-workspace gnomeExtensions.gsconnect
   ];
+
+  services.earlyoom = {
+      enable = true;
+      freeSwapThreshold = 2;
+      freeMemThreshold = 2;
+      extraArgs = [
+          "-g" "--avoid '^(wayland|.gnome-shell-wr|Xwayland|code)$'"
+          "--prefer '^(discord|firefox|.firefox-wrapped)$'"
+      ];
+  };
+
   
   networking.firewall.allowedTCPPortRanges = [
     # KDE Connect / GS connect
@@ -135,7 +147,7 @@
 
   # Disable some gnome default applications
   environment.gnome.excludePackages = with pkgs.gnome; [
-    epiphany    # web browser
+    #epiphany    # web browser
     simple-scan # document scanner
     yelp        # help viewer
     geary       # email client

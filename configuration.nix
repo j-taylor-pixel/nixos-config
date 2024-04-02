@@ -96,11 +96,11 @@
 
   # List packages installed in system profile.
   environment.systemPackages = with pkgs; [
-    pkgs.kitty pkgs.kitty-themes pkgs.zoxide pkgs.fzf
+    pkgs.zoxide pkgs.fzf
     pkgs.discord pkgs.zoom-us pkgs.xwaylandvideobridge
-    pkgs.python311
+    pkgs.python311 python3Packages.virtualenv
     pkgs.vscode pkgs.distrobox pkgs.git pkgs.github-desktop
-    pkgs.google-chrome 
+    pkgs.google-chrome
     pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies. missing java
     pkgs.iotas # note app
     pkgs.qpdfview pkgs.calibre # ebook software to read .epub
@@ -108,17 +108,20 @@
     pkgs.realvnc-vnc-viewer
     pkgs.qbittorrent
     pkgs.google-cloud-sdk
+    pkgs.audacity # for 546 rpoject
     #gnome extenstions still have to be manually enabled
     gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
     gnomeExtensions.dash-to-dock gnomeExtensions.maximize-to-empty-workspace gnomeExtensions.gsconnect
   ];
+
+  services.flatpak.enable = true;
 
   services.earlyoom = {
       enable = true;
       freeSwapThreshold = 2;
       freeMemThreshold = 2;
       extraArgs = [
-          "-g" "--avoid '^(wayland|.gnome-shell-wr|Xwayland|code)$'"
+          "-g" "--avoid '^(wayland|.gnome-shell-wr|Xwayland|Isolated*)$'"
           "--prefer '^(discord|firefox|.firefox-wrapped)$'"
       ];
   };

@@ -103,15 +103,13 @@
     pkgs.google-chrome
     pkgs.prismlauncher-unwrapped pkgs.jdk17 pkgs.alsa-oss # minecraft dependicies. missing java
     pkgs.iotas # note app
-    pkgs.qpdfview pkgs.calibre # ebook software to read .epub
+    pkgs.calibre # ebook software to read .epub
     pkgs.gnome.gnome-tweaks
     pkgs.realvnc-vnc-viewer
     pkgs.qbittorrent
     pkgs.google-cloud-sdk
-    pkgs.audacity # for 546 rpoject
-    #gnome extenstions still have to be manually enabled
-    gnomeExtensions.appindicator gnomeExtensions.caffeine gnomeExtensions.app-icons-taskbar
-    gnomeExtensions.dash-to-dock gnomeExtensions.maximize-to-empty-workspace gnomeExtensions.gsconnect
+    pkgs.beeper
+    pkgs.godot_4
   ];
 
   services.flatpak.enable = true;
@@ -150,7 +148,7 @@
 
   # Disable some gnome default applications
   environment.gnome.excludePackages = with pkgs.gnome; [
-    #epiphany    # web browser
+    epiphany    # web browser
     simple-scan # document scanner
     yelp        # help viewer
     geary       # email client
